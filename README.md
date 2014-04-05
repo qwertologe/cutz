@@ -3,6 +3,10 @@ cutz
 
 'cutz' cuts similar to linux cut
 
+# Syntax
+
+cutz [options] [file ...]
+
 # input/output
 
 * default input is stdin
