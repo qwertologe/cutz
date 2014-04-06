@@ -7,12 +7,12 @@ cutz
 
 cutz [options] [file ...]
 
-# input/output
+# In-/Output
 
 * default input is stdin
 * output is stdout
 
-# output formats
+# Output formats
 
 * default output format is csv
 * optional output variants:
