@@ -26,10 +26,10 @@ cutz [options] [file ...]
 | -d, --delimiter DELIM         | Use DELIM instead of whitespace              |
 | -o, --output-delimiter STRING | Use DELIM instead of input delimiter         |
 | -t, --text                    | Output simple text table (data in memory!)   |
-| -h, --html                    | Output simple html table records <tr>...     |
-| --thead [html-attributes]     | Add <thead>(1st line),<tbody> tags to html   |
-| --tbody [html-attributes]     | Add <tbody> tags to html output              |
-| --tfoot [html-attributes]     | Add <tfoot>(last line),<tbody> tags to html  |
+| -h, --html                    | Output simple html table records (tr)...     |
+| --thead [html-attributes]     | Adds thead(1st line),tbody tags to html      |
+| --tbody [html-attributes]     | Adds tbody tags to html output               |
+| --tfoot [html-attributes]     | Adds tfoot(last line),tbody tags to html     |
 | -f, --fields LIST             | Select fields                                |
 | -c, --characters LIST         | Select characters                            |
 | -?, --help                    | Help                                         |
