@@ -74,10 +74,25 @@ ARGV.options do |o|
   o.separator "    df -h | cutz -f3..4,6.. -t --thead # used free mount - colored text table"
   o.separator "    df | tail -n +2 | cutz -f-2.. -o';' # use;mountpoint - csv"
   o.separator "    cutz -f1,-2 -d: -h --tbody -- /etc/passwd # login home - html"
+  o.separator "    cutz -f1,-2 -d: --tb -h /etc/passwd # short version of above"
   o.separator "    cutz -d';' -f-1..1 test.csv # reverse csv file"
+  o.separator "    df | awk '{s=s+$3; print $0} END {print \". .\",s}' | cutz -f3,6.. -a -t"
   o.separator ""
   o.separator "Options:"
   o.separator ""
+
+  o.on( '-f', '--fields LIST', 'Select fields' ) do |fieldList|
+    fieldList.split(',').each { |element|
+      opts.elements << [Field,*range2startEnd(element)]
+      opts.fieldsUsed = true
+    }
+  end
+
+  o.on( '-c', '--characters LIST', 'Select characters' ) do |charList|
+    charList.split(',').each { |element|
+      opts.elements << [Char,*range2startLength(element)]
+    }
+  end
 
   o.on( '-d', '--delimiter DELIM', 'Use DELIM instead of whitespace' ) do |d|
     opts.delimiter = d
@@ -110,17 +125,10 @@ ARGV.options do |o|
     opts.tfootAttributes = p
   end
 
-  o.on( '-f', '--fields LIST', 'Select fields' ) do |fieldList|
-    fieldList.split(',').each { |element|
-      opts.elements << [Field,*range2startEnd(element)]
-      opts.fieldsUsed = true
-    }
-  end
-
-  o.on( '-c', '--characters LIST', 'Select characters' ) do |charList|
-    charList.split(',').each { |element|
-      opts.elements << [Char,*range2startLength(element)]
-    }
+  o.on( '-a', '--tall', 'Add all html tags or color to text layout' ) do
+    opts.thead = true
+    opts.tbody = true
+    opts.tfoot = true
   end
 
   o.on( '-?', '--help', 'Help' ) do

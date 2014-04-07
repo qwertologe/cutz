@@ -1,0 +1,92 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "CUTZ" "1" "April 2014" "" ""
+.
+.SH "NAME"
+\fBcutz\fR \- cuts similar to cut
+.
+.SH "SYNOPSIS"
+cutz [options] [file \.\.\.]
+.
+.SH "DESCRIPTION"
+Print selected parts of lines from each FILE to standard output\. Default input is stdin, default output is stdout\.
+.
+.SH "OUTPUT FORMATS"
+Default output format is csv\. Optional output variants:
+.
+.IP "\(bu" 4
+html (table records with optional thead, tbody and tfoot)
+.
+.IP "\(bu" 4
+text (aligned; special ansi if used with thead and tfoot)
+.
+.IP "" 0
+.
+.SH "OPTIONS"
+\fB\-f, \-\-fields LIST\fR Select fields
+.
+.P
+\fB\-c, \-\-characters LIST\fR Select characters
+.
+.P
+\fB\-d, \-\-delimiter DELIM\fR Use DELIM instead of whitespace
+.
+.P
+\fB\-o, \-\-output\-delimiter STRING\fR Use DELIM instead of input delimiter
+.
+.P
+\fB\-t, \-\-text\fR Output simple text table (data in memory!)
+.
+.P
+\fB\-h, \-\-html\fR Output simple html table records (tr)\.\.\.
+.
+.P
+\fB\-\-thead [html\-attributes]\fR Adds thead(1st line),tbody tags to html
+.
+.P
+\fB\-\-tbody [html\-attributes]\fR Adds tbody tags to html output
+.
+.P
+\fB\-\-tfoot [html\-attributes]\fR Adds tfoot(last line),tbody tags to html
+.
+.P
+\fB\-a, \-\-tall\fR Add all html tags or color to text layout
+.
+.P
+\fB\-?, \-\-help\fR Help
+.
+.P
+\fB\-v, \-\-version\fR Show program version and license information
+.
+.SH "LIST FORMAT"
+LIST format is selection[,selection,\.\.\.] where selection is:
+.
+.P
+n # exact n \-n # \-1 is the last, \-2 is next to last, \.\.\. n\.\.m # n upto m \- both can be negative n\.\. # n to end \- n can be negative
+.
+.P
+Field and character selection can be combined\. Character selections separated with \',\' differ from ranges with \'\.\.\'\.
+.
+.SH "EXAMPLES"
+.
+.nf
+
+cutz \-d: \-f1 \-h \-\-tbody id=abc /etc/passwd # login \- html
+df \-h | cutz \-f3\.\.4,6\.\. \-t \-\-thead # used free mount \- colored text table
+df | tail \-n +2 | cutz \-f\-2\.\. \-o\';\' # use;mountpoint \- csv
+cutz \-f1,\-2 \-d: \-h \-\-tbody \-\- /etc/passwd # login home \- html
+cutz \-f1,\-2 \-d: \-\-tb \-h /etc/passwd # short version of above
+cutz \-d\';\' \-f\-1\.\.1 test\.csv # reverse csv file
+df | awk \'{s=s+$3; print $0} END {print "\. \.",s}\' | cutz \-f3,6\.\. \-a \-t
+.
+.fi
+.
+.SH "AUTHOR"
+Michael Arlt
+.
+.SH "LICENSE"
+This is free software\. You may redistribute copies of it under the terms of the GNU General Public License (http://www\.gnu\.org/licenses/gpl\.html) There is NO WARRANTY, to the extent permitted by law\. License: GPLv3 \- see http://www\.gnu\.org/licenses/gpl\.html
+.
+.SH "SEE ALSO"
+cut(1)
