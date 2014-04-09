@@ -71,11 +71,11 @@ Character selections separated with ',' differ from ranges with '..'.
 
     cutz -d: -f1 -h --tbody id=abc /etc/passwd # login - html
     df -h | cutz -f3..4,6.. -t --thead # used free mount - colored text table
-    df | tail -n +2 | cutz -f-2.. -o';' # use;mountpoint - csv
+    df | tail -n +2 | cutz -f-2.. -o";" # use;mountpoint - csv
     cutz -f1,-2 -d: -h --tbody -- /etc/passwd # login home - html
     cutz -f1,-2 -d: --tb -h /etc/passwd # short version of above
-    cutz -d';' -f-1..1 test.csv # reverse csv file
-    df | awk '{s=s+$3; print $0} END {print ". .",s}' | cutz -f3,6.. -a -t
+    cutz -d";" -f-1..1 test.csv # reverse csv file
+    free -m | cutz -tac1.. # colorize output (1st and last line)
 
 ## AUTHOR
 

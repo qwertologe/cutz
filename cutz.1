@@ -62,8 +62,18 @@ text (aligned; special ansi if used with thead and tfoot)
 .SH "LIST FORMAT"
 LIST format is selection[,selection,\.\.\.] where selection is:
 .
-.P
-n # exact n \-n # \-1 is the last, \-2 is next to last, \.\.\. n\.\.m # n upto m \- both can be negative n\.\. # n to end \- n can be negative
+.IP "" 4
+.
+.nf
+
+n    # exact n
+\-n   # \-1 is the last, \-2 is next to last, \.\.\.
+n\.\.m # n upto m \- both can be negative
+n\.\.  # n to end \- n can be negative
+.
+.fi
+.
+.IP "" 0
 .
 .P
 Field and character selection can be combined\. Character selections separated with \',\' differ from ranges with \'\.\.\'\.
@@ -74,11 +84,11 @@ Field and character selection can be combined\. Character selections separated w
 
 cutz \-d: \-f1 \-h \-\-tbody id=abc /etc/passwd # login \- html
 df \-h | cutz \-f3\.\.4,6\.\. \-t \-\-thead # used free mount \- colored text table
-df | tail \-n +2 | cutz \-f\-2\.\. \-o\';\' # use;mountpoint \- csv
+df | tail \-n +2 | cutz \-f\-2\.\. \-o";" # use;mountpoint \- csv
 cutz \-f1,\-2 \-d: \-h \-\-tbody \-\- /etc/passwd # login home \- html
 cutz \-f1,\-2 \-d: \-\-tb \-h /etc/passwd # short version of above
-cutz \-d\';\' \-f\-1\.\.1 test\.csv # reverse csv file
-df | awk \'{s=s+$3; print $0} END {print "\. \.",s}\' | cutz \-f3,6\.\. \-a \-t
+cutz \-d";" \-f\-1\.\.1 test\.csv # reverse csv file
+free \-m | cutz \-tac1\.\. # colorize output (1st and last line)
 .
 .fi
 .
