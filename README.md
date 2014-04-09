@@ -65,7 +65,8 @@ LIST format is selection[,selection,...] where selection is:
     n..  # n to end - n can be negative
 
 Field and character selection can be combined.
-Character selections separated with ',' differ from ranges with '..'.
+Character selections separated with ',' are treated as separate fields
+during output. Ranges with '..' are output as a single string.
 
 ## EXAMPLES
 
