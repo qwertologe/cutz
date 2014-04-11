@@ -79,7 +79,7 @@ The order gets reversed if 'n' is greater than m (affects -c and -f).
     cutz -f1,-2 -d: -h --tbody -- /etc/passwd # login home - html
     cutz -f1,-2 -d: --tb -h /etc/passwd # short version of above
     cutz -d";" -f-1..1 test.csv # reverse csv file
-    cutz -d";" -c-1..1 test # reverse file test
+    cutz -c-1..1 test # reverse file test (character based)
     free -m | cutz -tac1.. # colorize output (1st and last line)
 
 ## AUTHOR
