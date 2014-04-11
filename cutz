@@ -25,28 +25,25 @@ Char=2
 
 Program = $0[/[^\/]*$/]
 Author = 'Michael Arlt'
-Version = '0.2'
+Version = '0.3'
 
-def range2startEnd(range)
+def range2firstLast(range)
   if range =~ /^-?[1-9]+$/
-    start=range.to_i
-    stop=start
+    first=range.to_i
+    last=first
   elsif range =~ /^-?[1-9]+[0-9]*\.\.(-?[1-9]+[0-9]*|)$/
-    start,stop=range.split(/\.\./).map(&:to_i)
-    stop=-1 if stop.nil?
+    first,last=range.split(/\.\./).map(&:to_i)
+    last=-1 if last.nil?
   else
     exitHelpError("LIST #{range} is invalid")
   end
-  start-=1 if start >= 0
-  stop-=1 if stop >= 0
-  return start,stop
+  return first,last
 end
 
-def range2startLength(range)
-  start,stop=range2startEnd(range)
-  length=stop-start
-  length+=1 if length >= 0
-  return start,length
+def firstLast2positiveValues(first,last,max)
+  first = first < 0 ? max+first : first-1
+  last = last < 0 ? max+last : last-1
+  return first,last
 end
 
 ARGV.options do |o|
@@ -64,14 +61,14 @@ ARGV.options do |o|
 
   o.on( '-f', '--fields LIST', 'Select fields' ) do |fieldList|
     fieldList.split(',').each { |element|
-      opts.elements << [Field,*range2startEnd(element)]
+      opts.elements << [Field,*range2firstLast(element)]
       opts.fieldsUsed = true
     }
   end
 
   o.on( '-c', '--characters LIST', 'Select characters' ) do |charList|
     charList.split(',').each { |element|
-      opts.elements << [Char,*range2startLength(element)]
+      opts.elements << [Char,*range2firstLast(element)]
     }
   end
 
@@ -263,24 +260,23 @@ while line = gets
   fields=Array.new
   line.chomp!
   cols=line.split(/#{opts.delimiter}/) if opts.fieldsUsed
-  opts.elements.each { |type,elementStart,elementEnd|
+  opts.elements.each { |type,first,last|
     if type == Field
-      elementStart = cols.length + elementStart if elementStart < 0
-      elementEnd = cols.length + elementEnd if elementEnd < 0
-      step = elementEnd > elementStart ? 1 : -1
-      element = elementStart
+      first,last=firstLast2positiveValues(first,last,line.length)
+      step = last > first ? 1 : -1
+      element = first
       loop do
-        grid.addField(cols[element]) if elementEnd >= 0 && cols[element]
-        break if element == elementEnd
+        grid.addField(cols[element]) if last >= 0 && cols[element]
+        break if element == last
         element+=step
       end
     elsif type == Char
-      if elementEnd < 0
-        elementLength=line.length+elementEnd+1
+      first,last=firstLast2positiveValues(first,last,line.length)
+      if first > last
+        grid.addField(line[last,first-last+1].reverse)
       else
-        elementLength=elementEnd
+        grid.addField(line[first,last-first+1])
       end
-      grid.addField(line[elementStart,elementLength]) if elementLength > 0 && line[elementStart,1]
     end
   }
   dataReceived = true

@@ -65,8 +65,11 @@ LIST format is selection[,selection,...] where selection is:
     n..  # n to end - n can be negative
 
 Field and character selection can be combined.
+
 Character selections separated with ',' are treated as separate fields
 during output. Ranges with '..' are output as a single string.
+
+The order gets reversed if 'n' is greater than m (affects -c and -f).
 
 ## EXAMPLES
 
@@ -76,6 +79,7 @@ during output. Ranges with '..' are output as a single string.
     cutz -f1,-2 -d: -h --tbody -- /etc/passwd # login home - html
     cutz -f1,-2 -d: --tb -h /etc/passwd # short version of above
     cutz -d";" -f-1..1 test.csv # reverse csv file
+    cutz -d";" -c-1..1 test # reverse file test
     free -m | cutz -tac1.. # colorize output (1st and last line)
 
 ## AUTHOR
