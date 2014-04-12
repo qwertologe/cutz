@@ -41,3 +41,28 @@ c b   a
        
 0 567 1
 '
+
+test_cutz '-f2 -ha',true,'<thead>
+<tr><th>456</th></tr>
+</thead>
+<tbody>
+<tr><td>b</td></tr>
+<tr><td></td></tr>
+</tbody>
+<tfoot>
+<tr><td></td></tr>
+</tfoot>
+'
+
+test_cutz '-f2 -h --th id=abc',true,'<thead id=abc>
+<tr><th>456</th></tr>
+</thead>
+<tbody>
+<tr><td>b</td></tr>
+<tr><td></td></tr>
+<tr><td></td></tr>
+</tbody>
+'
+
+
+
