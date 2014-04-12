@@ -16,7 +16,7 @@ Print selected parts of lines from each FILE to standard output\. Default input 
 Default output format is csv\. Optional output variants:
 .
 .IP "\(bu" 4
-html (table records with optional thead, tbody and tfoot)
+html (table records with optional thead, tbody and tfoot); additional html attributes are possible
 .
 .IP "\(bu" 4
 text (aligned; special ansi if used with thead and tfoot)
@@ -42,16 +42,16 @@ text (aligned; special ansi if used with thead and tfoot)
 \fB\-h, \-\-html\fR Output simple html table records (tr)\.\.\.
 .
 .P
-\fB\-\-thead [html\-attributes]\fR Adds thead(1st line),tbody tags to html
+\fB\-\-thead [html\-attributes]\fR Adds thead(1st line),tbody tags to html respectively color to text output
 .
 .P
 \fB\-\-tbody [html\-attributes]\fR Adds tbody tags to html output
 .
 .P
-\fB\-\-tfoot [html\-attributes]\fR Adds tfoot(last line),tbody tags to html
+\fB\-\-tfoot [html\-attributes]\fR Adds tfoot(last line),tbody tags to html respectively color to text output
 .
 .P
-\fB\-a, \-\-tall\fR Add all html tags or color to text layout
+\fB\-a, \-\-tall\fR Add all html tags (without additional html attributes) or color to text layout
 .
 .P
 \fB\-?, \-\-help\fR Help

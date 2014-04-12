@@ -14,7 +14,7 @@ Default input is stdin, default output is stdout.
 
 Default output format is csv. Optional output variants:
 
-* html (table records with optional thead, tbody and tfoot)
+* html (table records with optional thead, tbody and tfoot); additional html attributes are possible
 * text (aligned; special ansi if used with thead and tfoot)
 
 ## OPTIONS
@@ -38,16 +38,16 @@ Default output format is csv. Optional output variants:
   Output simple html table records (tr)...
 
 `--thead [html-attributes]`
-  Adds thead(1st line),tbody tags to html
+  Adds thead(1st line),tbody tags to html respectively color to text output
 
 `--tbody [html-attributes]`
   Adds tbody tags to html output
 
 `--tfoot [html-attributes]`
-  Adds tfoot(last line),tbody tags to html
+  Adds tfoot(last line),tbody tags to html respectively color to text output
 
 `-a, --tall`
-  Add all html tags or color to text layout
+  Add all html tags (without additional html attributes) or color to text layout
 
 `-?, --help`
   Help
