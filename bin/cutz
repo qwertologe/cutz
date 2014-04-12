@@ -26,7 +26,7 @@ Char=2
 
 Program = $0[/[^\/]*$/]
 Author = 'Michael Arlt'
-Version = '0.3'
+Version = '0.3.1'
 
 def range2firstLast(range)
   if range =~ /^-?[1-9]+$/
@@ -186,7 +186,7 @@ class Grid
   end
   def addField(data)
     @cols<<data
-    if @mode == TEXT
+    if @mode == TEXT && data
       if @maxWidth[@cols.length-1].nil? || data.length > @maxWidth[@cols.length-1]
         @maxWidth[@cols.length-1]=data.length
       end
@@ -223,8 +223,9 @@ class Grid
         print @thead if i == 0 && @thead
         j=0
         while j < line.length
-          printf "%-#{@maxWidth[j]+1}s",line[j]
+          printf "%-#{@maxWidth[j]}s",line[j]
           j+=1
+          printf " " if j < line.length
         end
         print @theadend if i == 0 && @theadend
         print @tfootend if @tfoot && i == @lines.length - 1
