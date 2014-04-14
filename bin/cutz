@@ -146,7 +146,9 @@ if opts.outputDelimiter.nil?
   opts.outputDelimiter = opts.delimiter == '\s+' ? ' ' : opts.delimiter
 end
 
+
 class Grid
+
   def initialize(mode,outputDelimiter,
                  thead,theadAttributes,
                  tbody,tbodyAttributes,
@@ -157,6 +159,7 @@ class Grid
     @mode=mode
     @outputDelimiter=outputDelimiter
     @thead=@theadend=@tbody=@tbodyend=@tfoot=@tfootend=nil
+    @firstLine=true
     if @mode == TEXT
       if thead
         @thead="\033[1m"
@@ -184,6 +187,7 @@ class Grid
       end
     end
   end
+
   def addField(data)
     @cols<<data
     if @mode == TEXT && data
@@ -192,6 +196,7 @@ class Grid
       end
     end
   end
+
   def lf
     if @mode == TEXT
       @lines<<@cols.clone
@@ -213,6 +218,12 @@ class Grid
     end
     @cols.clear
   end
+
+  def addRow
+    self.lf unless @firstLine
+    @firstLine=false
+  end
+
   def finish
     if @mode == TEXT
       self.lf
@@ -249,17 +260,17 @@ class Grid
       end
     end
   end
-end
+
+end # class Grid
+
 
 grid = Grid.new(opts.outputFormat,opts.outputDelimiter,
                 opts.thead,opts.theadAttributes,
                 opts.tbody,opts.tbodyAttributes,
                 opts.tfoot,opts.tfootAttributes)
 
-dataReceived = false
 while line = gets
-  grid.lf if dataReceived
-  fields=Array.new
+  grid.addRow
   line.chomp!
   cols=line.split(/#{opts.delimiter}/) if opts.fieldsUsed
   opts.elements.each { |type,first,last|
@@ -281,7 +292,6 @@ while line = gets
       end
     end
   }
-  dataReceived = true
 end
 
 grid.finish
