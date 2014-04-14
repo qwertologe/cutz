@@ -26,9 +26,9 @@ Char=2
 
 Program = $0[/[^\/]*$/]
 Author = 'Michael Arlt'
-Version = '0.3.1'
+Version = '0.3.2'
 
-def range2firstLast(range)
+def range_to_first_last(range)
   if range =~ /^-?[1-9]+$/
     first=range.to_i
     last=first
@@ -36,15 +36,13 @@ def range2firstLast(range)
     first,last=range.split(/\.\./).map(&:to_i)
     last=-1 if last.nil?
   else
-    exitHelpError("LIST #{range} is invalid")
+    exit_help_error("LIST #{range} is invalid")
   end
   return first,last
 end
 
-def firstLast2positiveValues(first,last,max)
-  first = first < 0 ? max+first : first-1
-  last = last < 0 ? max+last : last-1
-  return first,last
+def pos_to_positive_value(pos,max)
+  pos < 0 ? max+pos : pos-1
 end
 
 ARGV.options do |o|
@@ -62,14 +60,14 @@ ARGV.options do |o|
 
   o.on( '-f', '--fields LIST', 'Select fields' ) do |fieldList|
     fieldList.split(',').each { |element|
-      opts.elements << [Field,*range2firstLast(element)]
+      opts.elements << [Field,*range_to_first_last(element)]
       opts.fieldsUsed = true
     }
   end
 
   o.on( '-c', '--characters LIST', 'Select characters' ) do |charList|
     charList.split(',').each { |element|
-      opts.elements << [Char,*range2firstLast(element)]
+      opts.elements << [Char,*range_to_first_last(element)]
     }
   end
 
@@ -127,19 +125,19 @@ ARGV.options do |o|
   end
 end
 
-def exitError(message)
+def exit_error(message)
   STDERR.puts "E: #{message}"
   exit 1
 end
-def exitHelpError(message)
+def exit_help_error(message)
   puts ARGV.options.to_s
-  exitError(message)
+  exit_error(message)
 end
 	
 begin
   ARGV.parse!
 rescue => optparse
-  exitHelpError(optparse.message)
+  exit_help_error(optparse.message)
 end
 
 if opts.outputDelimiter.nil?
@@ -188,7 +186,7 @@ class Grid
     end
   end
 
-  def addField(data)
+  def add_field(data)
     @cols<<data
     if @mode == TEXT && data
       if @maxWidth[@cols.length-1].nil? || data.length > @maxWidth[@cols.length-1]
@@ -219,7 +217,7 @@ class Grid
     @cols.clear
   end
 
-  def addRow
+  def add_row
     self.lf unless @firstLine
     @firstLine=false
   end
@@ -270,25 +268,27 @@ grid = Grid.new(opts.outputFormat,opts.outputDelimiter,
                 opts.tfoot,opts.tfootAttributes)
 
 while line = gets
-  grid.addRow
+  grid.add_row
   line.chomp!
   cols=line.split(/#{opts.delimiter}/) if opts.fieldsUsed
   opts.elements.each { |type,first,last|
     if type == Field
-      first,last=firstLast2positiveValues(first,last,cols.length)
+      first=pos_to_positive_value(first,cols.length)
+      last=pos_to_positive_value(last,cols.length)
       step = last > first ? 1 : -1
       element = first
       loop do
-        grid.addField(cols[element]) if last >= 0 && cols[element]
+        grid.add_field(cols[element]) if last >= 0 && cols[element]
         break if element == last
         element+=step
       end
     elsif type == Char
-      first,last=firstLast2positiveValues(first,last,line.length)
+      first=pos_to_positive_value(first,line.length)
+      last=pos_to_positive_value(last,line.length)
       if first > last
-        grid.addField(line[last,first-last+1].reverse)
+        grid.add_field(line[last,first-last+1].reverse)
       else
-        grid.addField(line[first,last-first+1])
+        grid.add_field(line[first,last-first+1])
       end
     end
   }
