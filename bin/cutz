@@ -267,6 +267,7 @@ grid = Grid.new(opts.outputFormat,opts.outputDelimiter,
                 opts.tbody,opts.tbodyAttributes,
                 opts.tfoot,opts.tfootAttributes)
 
+Signal.trap("PIPE", "EXIT")
 while line = gets
   grid.add_row
   line.chomp!
