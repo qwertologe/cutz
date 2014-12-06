@@ -285,10 +285,14 @@ while line = gets
     elsif type == Char
       first=pos_to_positive_value(first,line.length)
       last=pos_to_positive_value(last,line.length)
+      if last < 0
+        grid.add_field('')
+      else
       if first > last
         grid.add_field(line[last,first-last+1].reverse)
       else
         grid.add_field(line[first,last-first+1])
+      end
       end
     end
   }
