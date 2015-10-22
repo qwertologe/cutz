@@ -133,7 +133,7 @@ def exit_help_error(message)
   puts ARGV.options.to_s
   exit_error(message)
 end
-	
+
 begin
   ARGV.parse!
 rescue => optparse
